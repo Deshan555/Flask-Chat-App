@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+</head>
+
+<body>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+      var socket = io.connect("http://localhost:5000")
+      socket.on('connect', function(){
+         socket.send("User Connected!!");
+         });
+
+    socket.on('message', function(data){
+       $('#messages').append($('<p>').text(data));
+       });
+
+    $('#send').on('click', function(){
+      socket.send($('#username').val() + ': '+ $('#message').val());
+      $('#message').val('');
+    });
+
+    })
+</script>
+<div class="row d-flex justify-content-center">
+    <section style="background-color: #eee;">
+  <div class="container py-5">
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8 col-lg-6 col-xl-4">
+
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center p-3"
+            style="border-top: 4px solid #ffa900;">
+            <h5 class="mb-0">Chat Room</h5>
+            <div class="d-flex flex-row align-items-center">
+              <i class="fas fa-minus me-3 text-muted fa-xs"></i>
+              <i class="fas fa-comments me-3 text-muted fa-xs"></i>
+              <i class="fas fa-times text-muted fa-xs"></i>
+            </div>
+          </div>
+
+            <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px">
+
+              <p class="font-monospace" id="messages"></p>
+
+            </div>
+
+            <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
+
+              <div class="input-group mb-0">
+
+                <input class="form-control" type="text" id="username" placeholder="Enter Username" required>
+
+                <input class="form-control" type="text" id="message" placeholder="Message" required>
+
+                <button class="btn btn-warning" id="send">Send</button>
+
+              </div>
+            </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+</div>
+</body>
+
+</html>
